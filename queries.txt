@@ -1,0 +1,99 @@
+create inventory db
+create Warehouse Table – Table name: whwmd200
+create Location Table – Table name: whwmd300 Warehouse String length 6 (foreign key reference to whwmd200)
+create Item Table – Table name: tcibd001
+create Inventory Table – Table name : whinr140
+
+ALTER TABLE whwmd200
+ADD CONSTRAINT PK_whwmd200 PRIMARY KEY (cwar);
+
+
+
+USE [INVENTORY]
+GO
+
+/****** Object:  Table [dbo].[whwmd200]    Script Date: 5/16/2018 9:02:39 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[whwmd200](
+	[cwar] [nchar](10) NOT NULL,
+	[Sloc] [tinyint] NOT NULL,
+	[Dsca] [nchar](10) NULL,
+ CONSTRAINT [PK_whwmd200] PRIMARY KEY CLUSTERED 
+(
+	[cwar] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+
+USE [INVENTORY]
+GO
+
+/****** Object:  Table [dbo].[whwmd300]    Script Date: 5/16/2018 9:03:16 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[whwmd300](
+	[Cwar] [nchar](10) NOT NULL,
+	[Loca] [nchar](10) NOT NULL,
+	[Dsca] [nchar](10) NOT NULL
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[whwmd300]  WITH CHECK ADD FOREIGN KEY([Cwar])
+REFERENCES [dbo].[whwmd200] ([cwar])
+GO
+
+
+ALTER TABLE tcibd001
+ADD CONSTRAINT PK_tcibd001 PRIMARY KEY (Item);
+
+
+USE [INVENTORY]
+GO
+
+/****** Object:  Table [dbo].[whinr140]    Script Date: 5/17/2018 11:12:06 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[whinr140](
+	[Cwar] [nchar](10) NOT NULL,
+	[Loca] [nchar](10) NOT NULL,
+	[Item] [nchar](10) NOT NULL,
+	[Clot] [nchar](10) NOT NULL,
+	[Qhnd] [float] NOT NULL,
+	[Qlal] [float] NOT NULL
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[whinr140]  WITH CHECK ADD FOREIGN KEY([Cwar])
+REFERENCES [dbo].[whwmd200] ([cwar])
+GO
+
+ALTER TABLE [dbo].[whinr140]  WITH CHECK ADD FOREIGN KEY([Loca])
+REFERENCES [dbo].[whwmd300] ([Loca])
+GO
+
+ALTER TABLE [dbo].[whinr140]  WITH CHECK ADD FOREIGN KEY([Item])
+REFERENCES [dbo].[tcibd001] ([Item])
+GO
+
+
+ALTER TABLE whwmd300
+ADD CONSTRAINT PK_whwmd300 PRIMARY KEY (Loca);
+
